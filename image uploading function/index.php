@@ -26,19 +26,6 @@ image('Egypt_newsbanner.jpg', 600, 200);
 
 
 
-?>
-<br><br><br>
-
-
-
-
-
-<?php
-
-array('alo', 'potol', 'lau');
-
-
-?>
 
 </body>
 </html>
