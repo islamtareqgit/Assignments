@@ -21,20 +21,31 @@
 // isseting form
 
 if(isset($_POST['button'])){
+
 // Form value get
    $std_name = $_POST['student_name'];
    $email = $_POST['email'];
    $cell = $_POST['number'];
    $roll = $_POST['roll'];
-   $std_age = $_POST['student_age'];
+   $age = $_POST['student_age'];
+   
 
    // check mail
 
    $mail_arr= explode('@', $email);
+   $inst_id = end($mail_arr);
+
+    // cell number validate
+
+ 
+
+  $cell_new = substr($cell, 0,3);
 
 
-  
-    $inst_id = end($mail_arr);
+
+
+
+
 
   
   // each input field checking
@@ -65,7 +76,7 @@ if(isset($_POST['button'])){
 
 
   }
-  if(empty($std_age)){
+  if(empty($age)){
 
     $err['student_age']= "<p style='color:red';>***age is Required</p>";
 
@@ -78,7 +89,7 @@ if(isset($_POST['button'])){
 
 
 // FORM VALIDATION
-if(empty($std_name) || empty($email) || empty($cell) || empty($roll) || empty($std_age)){
+if(empty($std_name) || empty($email) || empty($cell) || empty($roll) || empty($age)){
 
 
  $info = "<p class='alert alert-warning'>All fields are required!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
@@ -86,23 +97,32 @@ if(empty($std_name) || empty($email) || empty($cell) || empty($roll) || empty($s
 
 }elseif(filter_var( $email, FILTER_VALIDATE_EMAIL) == false){
 
-  $info = "<p class='alert alert-danger'>Email not recognized!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
+  $info = "<p class='alert alert-danger' role='alert'>Email not recognized!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
 
 
 }elseif($inst_id != 'coderstrustbd.com'){
 
-  $info = "<p class='alert alert-secondary'>mail is not institute mail!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
+  $info = "<p class='alert alert-secondary' role='alert'>mail is not institute mail!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
 
 
-}elseif($std_age>= 18|| $std_age<=40 ){
 
-  $info = "<p class='alert alert-danger'>only specified aged people are allowed!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
+}elseif(in_array($cell_new,['017','018','019','015','013'])== false){
+
+  $info = "<p class='alert alert-warning' role='alert'> opeartor is not valid!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
+
+
+}elseif(in_array($age, ['20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40'])== false){
+
+  $info = "<p class='alert alert-warning' role='alert'> age is not valid for signup!!<button class='colse' data-dismiss='alert'>&times;</button></p>";
+
 
 
 }
+
+
 else{
 
-  $info = "<p class='alert alert-success'>Information STABLE<button class='colse' data-dismiss='alert'>&times;</button></p>";
+  $info = "<p class='alert alert-info' role='alert'>Information STABLE<button class='colse' data-dismiss='alert'>&times;</button></p>";
 }
 
 }
@@ -189,27 +209,27 @@ if(isset($info)){
    ?>
 </div>
 
-   <div class="form-group">
+<div class="form-group">
+
+<label for="">Age</label>
+<input class="form-control" name="student_age" type="text" placeholder="Wrtie your age">
+
+<?php
+if(isset($err['student_age'])){
+
+echo $err['student_age'];
+
+
+}
+
+
+?>
+
+
+</div>
+
+
    
-   <label for="">Student Age</label>
-   
-   <input class="form-control" name="student_age" type="text" placeholder="Wrtie your age">
-
-  <?php
-  
-  if(isset($err['student_age'])){
-
-    echo $err['student_age'];
- 
-    }
-  
-  
-  ?>
-
-  
-   
-
-   </div>
    <div class="form-group">
   <button class="btn btn-primary" name="button" value="submit">Insert</button>
   </div>
