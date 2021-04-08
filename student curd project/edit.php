@@ -1,5 +1,19 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php
+
 
 include_once "autoload.php";
 
@@ -38,6 +52,70 @@ $edit_data = find('students',$id);
 </head>
 <body>
 
+<?php
+	/**
+	 * isseting student add form
+	 * 
+	 */
+	
+	if(isset($_POST['click'])){
+
+     //  get value
+
+	 $name = $_POST['name'];
+	 $email = $_POST['email'];
+	 $cell = $_POST['cell'];
+	 $username = $_POST['username'];
+	 $location = $_POST['location'];
+	 $age = $_POST['age'];
+	 $gender = '';
+
+	 if(isset($_POST['gender'])){
+
+		$gender = $_POST['gender'];
+
+	  }
+	 $dept = $_POST['department'];
+
+
+	 
+       
+      
+
+	 // Email check
+
+	 
+
+	// Form validation
+
+	if(empty($name) || empty($email) || empty($cell) || empty($username)){
+
+
+	$msg = validate("All fields are required");
+	   
+	   
+	   }
+	   
+	   elseif(filter_var($email, FILTER_VALIDATE_EMAIL) == false){
+
+       
+	 $msg = validate("Invalid Email");
+
+
+	   }
+	   
+	   else{
+		connection()-> query("UPDATE students SET name='$name', email='$email', cell='$cell', username='$username' WHERE id='$id'");
+
+		$msg = validate("Data update successful", 'success');
+		
+
+	   }
+	
+	}
+	
+	?>
+
 <div class="container">
 
 <div class="row">
@@ -48,6 +126,16 @@ $edit_data = find('students',$id);
 <div class="card">
 
 <div class="card-body">
+<h2>Student Data Edit</h2>
+<?php
+		
+		if(isset($msg )){
+
+         echo $msg; 
+
+		}
+		?>
+<hr>
 
 <form action="" method="POST" enctype="multipart/form-data">
 	<div class="form-group">
@@ -131,7 +219,7 @@ $edit_data = find('students',$id);
 
 					<div class="form-group">
 					<label for=""></label>
-						<input name="click" class="btn btn-primary" type="submit" value="add student">
+						<input name="click" class="btn btn-primary" type="submit" value="Update Student">
 					</div>
 				</form>
 
