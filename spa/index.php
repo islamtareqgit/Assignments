@@ -3,7 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Development Area</title>
+
 	<!-- ALL CSS FILES  -->
+
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/responsive.css">
@@ -117,11 +119,10 @@
 
    url: 'all.php',
    success: function(data){
-  
-
-
 
    $('.app').html(data);
+
+   alldata();
 
 
 
@@ -136,6 +137,25 @@
 
 	});
 
+	$. ajax({
+
+url: 'all.php',
+success: function(data){
+
+
+
+
+$('.app').html(data);
+
+
+
+
+}
+
+
+
+});
+
 
 	
 	$(document).on('submit','#student_form', function(){
@@ -146,7 +166,15 @@
 		let username= $('#username').val();
 
 
-		(name + email + cell + username);
+
+		if(name =='' || email =='' || cell =='' || username == ''){
+
+        swal('error', "All fields are required!!",'error');
+		}
+		
+		else{
+
+			(name + email + cell + username);
 		
 
 
@@ -175,7 +203,7 @@
 		 $('#username').val('');
 
 
-
+		 swal('success', "Data upload successfully!!",'success');
 
 
 	   }
@@ -183,11 +211,120 @@
 
 		});
 
+		}
+
+
+		
+
 
 		return false;
 
 
 	});
+
+	alldata();
+
+	function alldata(){
+
+		$. ajax({
+
+url: 'ajax_template/all_student.php',
+
+success: function(data){
+
+$('#all_student_info').html(data);
+
+
+
+}
+
+
+
+});
+
+
+}
+
+
+
+$(document).on('click', 'a.delete-btn', function(){
+
+let id= $(this).attr('delete_id');
+
+
+swal({
+
+   title: "Are you sure?",
+  text: "Studdents data will be deleted!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+
+
+
+}).then((conf) =>{
+
+if(conf){
+
+	$.ajax({
+
+
+url:'ajax_template/delete.php',
+
+method:"POST",
+
+data:{
+
+	id:id
+},
+
+success:function(data){
+
+swal({
+
+title: 'Done',
+text: "Student data deleted",
+icon: 'success'
+
+
+
+});
+
+alldata();
+
+}
+
+
+
+
+});
+
+
+}else{
+
+swal({
+
+title: 'Safe',
+text: "Student data safe now",
+icon: 'success'
+
+
+
+});
+
+
+
+}
+
+});
+
+
+
+
+return false;
+
+
+});
 	
 	
 	</script>
